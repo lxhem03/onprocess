@@ -1,16 +1,16 @@
 # REQUIRED CONFIG
 BOT_TOKEN = ""
-OWNER_ID = 8663988850
-TELEGRAM_API = 22266643
-TELEGRAM_HASH = "7d0b85b4146034511b8776ed7ff99de4"
-DATABASE_URL = "mongodb+srv://hemanthbreaker2027:9550399779htr@cluster0.haybbxg.mongodb.net/?appName=Cluster0"
+OWNER_ID = 
+TELEGRAM_API = 
+TELEGRAM_HASH = ""
+DATABASE_URL = ""
 # OPTIONAL CONFIG
 DEFAULT_LANG = "en"
 VT_SUBTITLE_LANGUAGE = "en"  # Language code for VT translated subtitles (e.g. en, hi, te, ta)
 VT_WHISPER_MODEL = "base"  # tiny, base, small, medium, or large-v3
 TG_PROXY = None  # {"scheme": "socks5", "hostname": "", "port": 1234, "username": "user", "password": "pass"}
 USER_SESSION_STRING = ""
-CMD_SUFFIX = "a"
+CMD_SUFFIX = ""
 AUTHORIZED_CHATS = ""
 SUDO_USERS = ""
 STATUS_LIMIT = 10
@@ -21,7 +21,7 @@ STREAMWISH_API = ""
 ALLDEBRID_API_KEY = ""
 ALLDEBRID_NO_SEED_TIMEOUT = 180
 EXCLUDED_EXTENSIONS = ""
-INC_TASK_NOTIFY = False
+INC_TASK_NOTIFY = True
 YT_DLP_OPTIONS = ""
 USE_SERVICE_ACCOUNTS = False
 NAME_SWAP = ""
@@ -45,13 +45,13 @@ DISABLE_MIRROR = False
 DISABLE_BULK = False
 DISABLE_MULTI = False
 DISABLE_SEED = False
-DISABLE_FF_MODE = False
+DISABLE_FF_MODE = True
 DISABLE_JD = False
 DISABLE_NZB = False
 DISABLE_SEEDR = False
 DISABLE_RSS = False
 DISABLE_SEARCH = False
-DISABLE_STREAM = False
+DISABLE_STREAM = True
 DISABLE_YTDLP = False
 DISABLE_PLUGINS = False
 # Plugins
@@ -120,9 +120,9 @@ VERIFY_TIMEOUT = 0
 LOGIN_PASS = ""
 
 # Crash Reporting
-ENABLE_TELEMETRY = True
+ENABLE_TELEMETRY = False
 # Bot Settings
-BOT_PM = False
+BOT_PM = True
 SET_COMMANDS = True
 TIMEZONE = "Asia/Kolkata"
 
@@ -158,8 +158,8 @@ USENET_SERVERS = [{
     "optional": 0, "retention": 0, "send_group": 0, "priority": 0,
 }]
 # Update
-UPSTREAM_REPO = "https://github.com/SilentDemonSD/WZML-X"
-UPSTREAM_BRANCH = "wzv3"
+UPSTREAM_REPO = "https://github.com/lxhem03/onprocess"
+UPSTREAM_BRANCH = "main"
 # Leech
 LEECH_SPLIT_SIZE = 0
 AS_DOCUMENT = False
