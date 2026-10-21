@@ -1,0 +1,95 @@
+name: Deploy CDML-X to Heroku
+
+on:
+  workflow_dispatch:
+    inputs:
+      HEROKU_APP_NAME:
+        description: Existing Heroku application name
+        required: true
+        type: string
+
+      confirm:
+        description: Type YES to authorize deployment
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cdmlx-heroku-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    env:
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+      APP_NAME: ${{ inputs.HEROKU_APP_NAME }}
+
+    steps:
+      - name: Validate deployment confirmation
+        env:
+          CONFIRMATION: ${{ inputs.confirm }}
+        run: |
+          if [ "$CONFIRMATION" != "YES" ]; then
+            echo "Deployment cancelled."
+            exit 1
+          fi
+
+      - name: Validate Heroku credentials
+        run: |
+          if [ -z "$HEROKU_API_KEY" ]; then
+            echo "ERROR: HEROKU_API_KEY is missing from GitHub Secrets."
+            exit 1
+          fi
+
+          if [ -z "$HEROKU_EMAIL" ]; then
+            echo "ERROR: HEROKU_EMAIL is missing from GitHub Secrets."
+            exit 1
+          fi
+
+          if [ -z "$APP_NAME" ]; then
+            echo "ERROR: Heroku application name is missing."
+            exit 1
+          fi
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Heroku CLI
+        run: |
+          curl -fsSL https://cli-assets.heroku.com/install.sh | sh
+
+      - name: Verify Heroku access
+        run: |
+          heroku auth:whoami
+          heroku apps:info --app "$APP_NAME"
+
+      - name: Set container stack
+        run: |
+          heroku stack:set container --app "$APP_NAME"
+
+      - name: Configure Docker platform
+        run: |
+          echo "DOCKER_DEFAULT_PLATFORM=linux/amd64" >> "$GITHUB_ENV"
+
+      - name: Authenticate with Heroku Container Registry
+        run: |
+          heroku container:login
+
+      - name: Build and push worker image
+        run: |
+          heroku container:push worker --app "$APP_NAME"
+
+      - name: Release worker image
+        run: |
+          heroku container:release worker --app "$APP_NAME"
+
+      - name: Show deployment status
+        run: |
+          heroku ps --app "$APP_NAME"
